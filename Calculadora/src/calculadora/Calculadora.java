@@ -7,21 +7,13 @@ package calculadora;
 
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Calculadora {
 
     static Scanner in = new Scanner(System.in);
     
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) throws VNV, EX{
             calculadora();
-        } catch (VNV ex) {
-            Logger.getLogger(Calculadora.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (EX ex) {
-            Logger.getLogger(Calculadora.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public static void calculadora() throws VNV, EX{
@@ -32,7 +24,7 @@ public class Calculadora {
             try{
                 System.out.println("Ingrese la accción que desea realizar: \n1. Realizar una suma. \n2. Realizar una resta. \n3. Realizar una multiplicacion \n4. Realizar una division \n5. Sacar raiz. \n6. Elevar un numero.");
                 opcion = in.nextInt();
-                if(opcion < 0 || opcion > 6){
+                if(opcion < 1 || opcion > 6){
                     throw new VNV();
                 }
             funciona= false;
@@ -62,22 +54,27 @@ public class Calculadora {
                 switch(opcion){
                     case 1:{             
                         Calculos.Suma(valorA, valorB);
+                        funciona = false;
                     }break;
                     case 2:{             
                         Calculos.Resta(valorA, valorB);
+                        funciona = false;
                     }break;
                     case 3:{             
                         Calculos.Multiplicar(valorA, valorB);
+                        funciona = false;
                     }break;
                     case 4:{             
                         Calculos.Dividir(valorA, valorB);
+                        funciona = false;
                     }break;
                     case 5:{             
-                        Calculos.Suma(valorA, valorB);
+                        Calculos.Raiz(valorA, valorB);
+                        funciona = false;
                     }break;
                     case 6:{             
-                        
-                        Calculos.Suma(valorA, valorB);
+                        Calculos.Elevar(valorA, valorB);
+                        funciona = false;
                     }break;
                 }
             }catch(InputMismatchException Ime){
@@ -85,6 +82,22 @@ public class Calculadora {
                 System.out.println("Usted no ha ingresado un numero, intente de nuevo por favor");
             }catch(EX ex){
                 System.out.println("Usted ha ingresado un numero fuera de rango, introduzca un numero entre 1000 o -999");
+            }
+        }while(funciona);
+        funciona = true;
+        do{
+            opcion = 0;
+            System.out.println("1. Continuar. \n0.Salir. ");
+            try{
+                opcion = in.nextInt();
+                if (opcion < 0 || opcion > 1){
+                    throw new VNV();
+                }
+                funciona = false;
+            }catch(InputMismatchException Ime){
+                System.out.println("No ingreso un valor numerico, intente de nuevo");
+            }catch(VNV vnv){
+                System.out.println("No ingreso una opcion valida, intente de nuevo por favor");
             }finally{
                 in.nextLine();
             }
